@@ -51,7 +51,7 @@ namespace ConsoleUI
         {
             DateTime tarih1 = new DateTime(2021, 02, 07, 12, 20, 00);
             DateTime tarih2 = new DateTime(2021, 02, 15, 12, 20, 00);
-            var rental1 = new Rental { CarId = 2, CustomerId = 1, RentDate = tarih1, ReturnDate = tarih2 };
+            var rental1 = new Rental { CarId = 5, CustomerId = 3, RentDate = tarih1, ReturnDate = tarih2 };
             Console.WriteLine(rentalManager.Add(rental1).Message);
         }
 

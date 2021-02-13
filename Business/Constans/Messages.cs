@@ -44,6 +44,6 @@ namespace Business.Constans
 
         public static string RentalUpdated = "Araba kirası güncellendi";
 
-        public static string RentolNoAdded = "Araba zaten kiralı";
+        public static string RentalNoAdded = "Araba zaten kiralı";
     }
 }

@@ -21,8 +21,6 @@ namespace Business.Concrete
 
             var results = _rentalDal.GetAll(p => p.CarId == rental.CarId);
 
-            bool success = true;
-
             foreach (var item in results)
             {
                 if (item != null)
@@ -30,22 +28,12 @@ namespace Business.Concrete
                     var date = DateTime.Compare(rental.ReturnDate, item.ReturnDate); // soldaki tarih sağdakinden geçmişteyse değeri 0'dan küçüktür
                     if (date < 0)
                     {
-                        success = false;
+                        return new ErrorResult(Messages.RentalNoAdded);
                     }
                 }
             }
-
-            if (success)
-            {
                 _rentalDal.Add(rental);
                 return new SuccessResult(Messages.RentalAdded);
-            }
-
-            else
-            {
-                return new ErrorResult(Messages.RentolNoAdded);
-            }
-
         }
 
         public IResult Delete(Rental rental)

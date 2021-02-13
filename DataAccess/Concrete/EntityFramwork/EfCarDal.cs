@@ -18,10 +18,10 @@ namespace DataAccess.Concrete.EntityFramwork
         {
             using (ReCapProjectCarsContext context = new ReCapProjectCarsContext())
             {
-                var result = from c in context.Car
-                             join b in context.Brand
+                var result = from c in context.Cars
+                             join b in context.Brands
                              on c.BrandId equals b.BrandId
-                             join col in context.Color
+                             join col in context.Colors
                              on c.ColorId equals col.ColorId
                              select new CarDetailDto {Id = c.Id,CarDescription = c.CarDescription,CarBrand = b.CarBrand, CarColor = col.CarColor, DailyPrice = c.DailyPrice  };
 
@@ -33,10 +33,10 @@ namespace DataAccess.Concrete.EntityFramwork
         {
             using (ReCapProjectCarsContext context = new ReCapProjectCarsContext())
             {
-                var result = from c in context.Car
-                             join b in context.Brand
+                var result = from c in context.Cars
+                             join b in context.Brands
                              on c.BrandId equals b.BrandId
-                             join col in context.Color
+                             join col in context.Colors
                              on c.ColorId equals col.ColorId
                              select new CarDetailDto { Id=c.Id,CarDescription = c.CarDescription, CarBrand = b.CarBrand, CarColor = col.CarColor, DailyPrice = c.DailyPrice };
 

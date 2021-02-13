@@ -14,6 +14,9 @@ namespace ConsoleUI
             CarManager carManager = new CarManager(new EfCarDal());
             ColorManager colorManager = new ColorManager(new EfColorDal());
             BrandManager brandManager = new BrandManager(new EfBrandDal());
+            UserManager userManager = new UserManager(new EfUserDal());
+            CustomerManager customerManager = new CustomerManager(new EfCustomerDal());
+            RentalManager rentalManager = new RentalManager(new EfRentalDal());
 
             //TestGetAll(carManager);
 
@@ -39,6 +42,17 @@ namespace ConsoleUI
 
             //GetAllCarDetails(carManager);
 
+            AddRental(rentalManager);
+
+
+        }
+
+        private static void AddRental(RentalManager rentalManager)
+        {
+            DateTime tarih1 = new DateTime(2021, 02, 07, 12, 20, 00);
+            DateTime tarih2 = new DateTime(2021, 02, 15, 12, 20, 00);
+            var rental1 = new Rental { CarId = 2, CustomerId = 1, RentDate = tarih1, ReturnDate = tarih2 };
+            Console.WriteLine(rentalManager.Add(rental1).Message);
         }
 
         private static void GetAllCarDetails(CarManager carManager)
@@ -65,6 +79,7 @@ namespace ConsoleUI
             {
                 Console.WriteLine(car.CarDescription);
             }
+            
         }
 
         private static void GetByBrandId(CarManager carManager)
@@ -95,10 +110,11 @@ namespace ConsoleUI
 
         private static void ColorAdd(ColorManager colorManager)
         {
-            colorManager.Add(new Color { ColorId = 1, CarColor = "Siyah" });
-            colorManager.Add(new Color { ColorId = 2, CarColor = "Beyaz" });
-            colorManager.Add(new Color { ColorId = 3, CarColor = "Kırmızı" });
-            colorManager.Add(new Color { ColorId = 4, CarColor = "Mavi" });
+            //colorManager.Add(new Color { ColorId = 1, CarColor = "Siyah" });
+            //colorManager.Add(new Color { ColorId = 2, CarColor = "Beyaz" });
+            //colorManager.Add(new Color { ColorId = 3, CarColor = "Kırmızı" });
+            //Console.WriteLine(colorManager.Add(new Color { CarColor = "Turuncu" }).Message);
+            
         }
 
         private static void GetCar(CarManager carManager)

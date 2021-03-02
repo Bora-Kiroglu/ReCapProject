@@ -19,21 +19,21 @@ namespace Business.Concrete
         public IResult Add(Rental rental)
         {
 
-            var results = _rentalDal.GetAll(p => p.CarId == rental.CarId);
+            //var results = _rentalDal.GetAll(p => p.CarId == rental.CarId);
 
-            foreach (var item in results)
-            {
-                if (item != null)
-                {
-                    var date = DateTime.Compare(rental.ReturnDate, item.ReturnDate); // soldaki tarih sağdakinden geçmişteyse değeri 0'dan küçüktür
-                    if (date < 0)
-                    {
-                        return new ErrorResult(Messages.RentalNoAdded);
-                    }
-                }
-            }
-                _rentalDal.Add(rental);
-                return new SuccessResult(Messages.RentalAdded);
+            //foreach (var item in results)
+            //{
+            //    if (item != null)
+            //    {
+            //        var date = DateTime.Compare(rental.ReturnDate, item.ReturnDate); // soldaki tarih sağdakinden geçmişteyse değeri 0'dan küçüktür
+            //        if (date < 0)
+            //        {
+            //            return new ErrorResult(Messages.RentalNoAdded);
+            //        }
+            //    }
+            //}
+            _rentalDal.Add(rental);
+            return new SuccessResult(Messages.RentalAdded);
         }
 
         public IResult Delete(Rental rental)
@@ -44,7 +44,7 @@ namespace Business.Concrete
 
         public IDataResult<Rental> Get(int id)
         {
-            return new SuccessDataResult<Rental>(_rentalDal.Get(p=>p.Id==id));
+            return new SuccessDataResult<Rental>(_rentalDal.Get(p => p.Id == id));
         }
 
         public IDataResult<List<Rental>> GetAll()

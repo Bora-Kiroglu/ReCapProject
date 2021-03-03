@@ -1,9 +1,10 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspect.Autofac;
 using Business.Constans;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcern.Validation.FluentValidation;
-using Core.Ultilites.Results;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
@@ -46,7 +47,7 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<Car>(_carDal.Get(p=>p.Id==id));
         }
-
+        [SecuredOperation("car.getall")]
         public IDataResult<List<Car>> GetAll()
         {
             return new SuccessDataResult<List<Car>>(_carDal.GetAll());

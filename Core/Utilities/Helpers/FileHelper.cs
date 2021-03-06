@@ -13,7 +13,7 @@ namespace Core.Utilities.Helpers
         {
             var sourcePath = Path.GetTempFileName();
 
-            using (var stream = new FileStream(sourcePath,FileMode.Create))
+            using (var stream = new FileStream(sourcePath, FileMode.Create))
             {
                 file.CopyTo(stream);
             }

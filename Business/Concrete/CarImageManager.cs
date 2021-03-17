@@ -44,17 +44,24 @@ namespace Business.Concrete
 
         public IDataResult<CarImage> Get(int id)
         {
-            return new SuccessDataResult<CarImage>(_carImageDal.Get(c=>c.Id==id));
+            return new SuccessDataResult<CarImage>(_carImageDal.Get(i => i.Id == id));
         }
 
         public IDataResult<List<CarImage>> GetAll()
         {
-            return new SuccessDataResult<List<CarImage>>(_carImageDal.GetAll());
+            return new SuccessDataResult<List<CarImage>>(ReturnDefaultPath());
         }
 
         public IDataResult<List<CarImage>> GetImagesByCarId(int id)
         {
-            return new SuccessDataResult<List<CarImage>>(_carImageDal.GetAll(c => c.CarId == id));
+            var result = BusinessRules.Run(CheckImageExitsForCarId(id));
+            if (result.Success)
+            {
+                return new SuccessDataResult<List<CarImage>>(_carImageDal.GetAll(i => i.CarId == id));
+            }
+            return new SuccessDataResult<List<CarImage>>(ReturnDefaultPath(id));
+
+            
         }
 
         public IResult Update(CarImage image, IFormFile file)
@@ -80,14 +87,44 @@ namespace Business.Concrete
 
         //private List<CarImage> CheckIfImageNull(int id)
         //{
-        //    string path = @"\Images\noPhoto.png";
-        //    var result = _carImageDal.GetAll(c=>c.CarId==id);
-        //    if (result.Count>0)
+        //    string path = @"\Images\CarImages\noPhoto.png";
+        //    var result = _carImageDal.GetAll(c => c.CarId == id);
+        //    if (result.Count == 0)
         //    {
-        //        return new List<CarImage> { new CarImage{ CarId = id, Date = DateTime.Now, ImagePath = path } };
+        //        return new List<CarImage> { new CarImage { CarId = id, Date = DateTime.Now, ImagePath = path } };
         //    }
 
         //    return result;
         //}
+
+
+
+        private IResult CheckImageExitsForCarId(int id)
+        {
+            var result = _carImageDal.GetAll(i => i.CarId == id);
+            if (result.Count == 0)
+            {
+                return new ErrorResult();
+            }
+
+            return new SuccessResult();
+        }
+
+        private List<CarImage> ReturnDefaultPath(int id)
+        {
+            List<CarImage> carImages = new List<CarImage> { new CarImage { CarId = id, Date = DateTime.Now, ImagePath = @"\Images\CarImages\noPhoto.png" } };
+            return carImages;
+        }
+
+        private List<CarImage> ReturnDefaultPath()
+        {
+            var result = _carImageDal.GetAll();
+            if (result.Count != 0)
+            {
+                return result;
+            }
+            List<CarImage> carImages = new List<CarImage> { new CarImage {Date = DateTime.Now, ImagePath = @"\Images\CarImages\noPhoto.png" } };
+            return carImages;
+        }
     }
 }

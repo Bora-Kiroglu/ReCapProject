@@ -23,7 +23,9 @@ namespace DataAccess.Concrete.EntityFramwork
                              on c.BrandId equals b.BrandId
                              join col in context.Colors
                              on c.ColorId equals col.ColorId
-                             select new CarDetailDto {Id = c.Id,CarDescription = c.CarDescription,CarBrand = b.CarBrand, CarColor = col.CarColor, DailyPrice = c.DailyPrice  };
+                             join i in context.CarImages
+                             on c.Id equals i.CarId
+                             select new CarDetailDto {Id = c.Id,CarDescription = c.CarDescription,CarBrand = b.CarBrand, CarColor = col.CarColor, DailyPrice = c.DailyPrice, ImagePath = i.ImagePath  };
 
                 return result.SingleOrDefault(p => p.Id == id);
             }
@@ -38,7 +40,45 @@ namespace DataAccess.Concrete.EntityFramwork
                              on c.BrandId equals b.BrandId
                              join col in context.Colors
                              on c.ColorId equals col.ColorId
-                             select new CarDetailDto { Id=c.Id,CarDescription = c.CarDescription, CarBrand = b.CarBrand, CarColor = col.CarColor, DailyPrice = c.DailyPrice };
+                             join i in context.CarImages
+                             on c.Id equals i.CarId
+                             select new CarDetailDto { Id=c.Id,CarDescription = c.CarDescription, CarBrand = b.CarBrand, CarColor = col.CarColor, DailyPrice = c.DailyPrice,ImagePath = i.ImagePath };
+
+                return result.ToList();
+            }
+        }
+
+        public List<CarDetailDto> GetAllCarDetailsByBrandId(int brandId)
+        {
+            using (ReCapProjectCarsContext context = new ReCapProjectCarsContext())
+            {
+                var result = from c in context.Cars
+                             join b in context.Brands
+                             on c.BrandId equals b.BrandId
+                             join col in context.Colors
+                             on c.ColorId equals col.ColorId
+                             join i in context.CarImages
+                             on c.Id equals i.CarId
+                             //where c.BrandId == brandId
+                             select new CarDetailDto { Id = c.Id, CarDescription = c.CarDescription, CarBrand = b.CarBrand, CarColor = col.CarColor, DailyPrice = c.DailyPrice, ImagePath = i.ImagePath };
+
+                return result.ToList();
+            }
+        }
+
+        public List<CarDetailDto> GetAllCarDetailsByColorId(int colorId)
+        {
+            using (ReCapProjectCarsContext context = new ReCapProjectCarsContext())
+            {
+                var result = from c in context.Cars
+                             join b in context.Brands
+                             on c.BrandId equals b.BrandId
+                             join col in context.Colors
+                             on c.ColorId equals col.ColorId
+                             join i in context.CarImages
+                             on c.Id equals i.CarId
+                             where c.ColorId == colorId
+                             select new CarDetailDto { Id = c.Id, CarDescription = c.CarDescription, CarBrand = b.CarBrand, CarColor = col.CarColor, DailyPrice = c.DailyPrice, ImagePath = i.ImagePath };
 
                 return result.ToList();
             }
